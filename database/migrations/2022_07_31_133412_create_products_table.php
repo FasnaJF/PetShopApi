@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('category_id');
+            $table->char('category_uuid',36);
             $table->string('title');
             $table->char('uuid', 36);
             $table->double('price',12,2);
