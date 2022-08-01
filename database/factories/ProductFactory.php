@@ -29,7 +29,7 @@ class ProductFactory extends Factory
             'category_uuid' => $category_uuid,
             'title' => fake()->words(rand(6,10),true),
             'uuid' => Str::uuid(),
-            'price' => fake()->randomFloat(2,10,10000),
+            'price' => fake()->randomFloat(2,10,50),
             'description' => fake()->sentence(),
             'metadata' => json_encode([
                 'brand'=> $brand_uuid,
