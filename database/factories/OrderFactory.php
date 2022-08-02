@@ -57,7 +57,7 @@ class OrderFactory extends Factory
                 'billing' => fake()->address(),
                 'shipping' => fake()->address()
             ]),
-            'delivery_fee' => ($amount > 500) ? 15 : 0,
+            'delivery_fee' => ($amount < 500) ? 15 : 0,
             'amount' => $amount,
             'created_at' => now(),
             'updated_at' => now(),
