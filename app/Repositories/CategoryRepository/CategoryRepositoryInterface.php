@@ -2,7 +2,7 @@
 
 namespace App\Repositories\CategoryRepository;
 
-use App\Repository\BaseRepositoryInterface;
+use App\Repositories\BaseRepositoryInterface;
 
 interface CategoryRepositoryInterface extends BaseRepositoryInterface
 {

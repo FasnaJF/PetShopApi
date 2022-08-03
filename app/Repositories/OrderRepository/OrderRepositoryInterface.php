@@ -2,7 +2,7 @@
 
 namespace App\Repositories\OrderRepository;
 
-use App\Repository\BaseRepositoryInterface;
+use App\Repositories\BaseRepositoryInterface;
 
 interface OrderRepositoryInterface extends BaseRepositoryInterface
 {

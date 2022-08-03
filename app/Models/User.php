@@ -20,9 +20,16 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'uuid',
+        'first_name',
+        'last_name',
         'email',
         'password',
+        'is_admin',
+        'avatar',
+        'address',
+        'phone_number',
+        'is_marketing',
     ];
 
     /**
@@ -43,4 +50,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function jwtToken()
+    {
+        return $this->belongsTo(JwtToken::class, 'id', 'user_id');
+    }
 }

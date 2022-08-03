@@ -2,7 +2,7 @@
 
 namespace App\Repositories\JwtTokenRepository;
 
-use App\Repository\BaseRepositoryInterface;
+use App\Repositories\BaseRepositoryInterface;
 
 interface JwtTokenRepositoryInterface extends BaseRepositoryInterface
 {

@@ -2,7 +2,7 @@
 
 namespace App\Repositories\PaymentRepository;
 
-use App\Repository\BaseRepositoryInterface;
+use App\Repositories\BaseRepositoryInterface;
 
 interface PaymentRepositoryInterface extends BaseRepositoryInterface
 {

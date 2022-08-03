@@ -2,7 +2,7 @@
 
 namespace App\Repositories\OrderStatusRepository;
 
-use App\Repository\BaseRepositoryInterface;
+use App\Repositories\BaseRepositoryInterface;
 
 interface OrderStatusRepositoryInterface extends BaseRepositoryInterface
 {

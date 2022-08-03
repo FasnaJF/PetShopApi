@@ -35,6 +35,20 @@ class UserService
 
     public function updateUser($id, $data)
     {
-        return $this->userRepo->updateById($id, $data);
+        $user =  $this->userRepo->updateById($id, $data);
+        if($user){
+            return $this->getUserById($user->id);
+        }
+        return false;
+    }
+
+    public function getAllUsers()
+    {
+        return $this->userRepo->getAll();
+    }
+
+    public function getUserByUUID($uuid)
+    {
+        return $this->userRepo->getByUUID($uuid);
     }
 }

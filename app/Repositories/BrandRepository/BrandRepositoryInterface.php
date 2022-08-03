@@ -2,7 +2,7 @@
 
 namespace App\Repositories\BrandRepository;
 
-use App\Repository\BaseRepositoryInterface;
+use App\Repositories\BaseRepositoryInterface;
 
 interface BrandRepositoryInterface extends BaseRepositoryInterface
 {
