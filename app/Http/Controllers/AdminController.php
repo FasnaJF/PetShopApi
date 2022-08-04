@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\LoginRequest;
-use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\EditUserRequest;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\UserResource;
 use App\Services\JwtTokenService;
@@ -185,7 +185,7 @@ class AdminController extends Controller
     {
         $user = $this->userService->getUserByEmail($request->email);
         if (!$user) {
-            return $this->authenticationFailed();
+            return $this->unprocessableEntityResponse( "Failed to authenticate user");
         }
 
         $credentials = $request->only(['email', 'password']);
@@ -195,13 +195,11 @@ class AdminController extends Controller
             $this->jwtTokenService->createJwtToken(
                 ['user_id' => $user->id, 'unique_id' => $jwtToken, 'token_title' => 'admin_login']
             );
-            return (new BaseResource(['token' => $jwtToken]))
-                ->withSuccess(1)
-                ->withError(null)
-                ->withErrors([])
-                ->withExtra([]);
+
+            return $this->customResponse(['token' => $jwtToken]);
+
         } else {
-            return $this->authenticationFailed();
+            return $this->unprocessableEntityResponse( "Failed to authenticate user");
         }
     }
 
@@ -331,11 +329,11 @@ class AdminController extends Controller
      *     ),
      * )
      */
-    public function updateUser(UpdateUserRequest $request)
+    public function updateUser(EditUserRequest $request)
     {
         $user = $this->userService->getUserByUUID($request->uuid);
         if ($user->is_admin === 1) {
-            $this->notEnoughPrivilege();
+            return $this->unprocessableEntityResponse("Unauthorized: Not enough privileges");
         }
         if ($user) {
             $updatedUser = $this->userService->updateUser($user->id, $request->all());
@@ -392,7 +390,7 @@ class AdminController extends Controller
             return $this->resourceNotFound("User not found");
         }
         if ($user->is_admin === 1) {
-            $this->notEnoughPrivilege();
+            return $this->unprocessableEntityResponse("Unauthorized: Not enough privileges");
         }
         if ($this->userService->deleteUser($user->id)) {
             return $this->emptySuccessResponse();

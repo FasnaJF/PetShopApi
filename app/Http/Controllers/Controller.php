@@ -26,6 +26,42 @@ use Symfony\Component\HttpFoundation\Response as ResponseAlias;
  *     bearerFormat="JWT",
  *     in="header"
  * )
+ * @OA\Tag(
+ *     name="Admin",
+ *     description="Admin API endpoint"
+ * ),
+ * @OA\Tag(
+ *     name="User",
+ *     description="User API endpoint"
+ * ),
+ * @OA\Tag(
+ *     name="Categories",
+ *     description="Categories API endpoint"
+ * ),
+ * @OA\Tag(
+ *     name="Brands",
+ *     description="Brands API endpoint"
+ * ),
+ * @OA\Tag(
+ *     name="Orders",
+ *     description="Orders API endpoint"
+ * ),
+ * @OA\Tag(
+ *     name="Order Statuses",
+ *     description="Order statuses API endpoint"
+ * ),
+ * @OA\Tag(
+ *     name="Payments",
+ *     description="Payments API endpoint"
+ * ),
+ * @OA\Tag(
+ *     name="Products",
+ *     description="Products API endpoint"
+ * ),
+ * @OA\Tag(
+ *     name="File",
+ *     description="File API endpoint"
+ * ),
  */
 
 class Controller extends BaseController
@@ -59,26 +95,13 @@ class Controller extends BaseController
         );
     }
 
-    protected function notEnoughPrivilege()
+    protected function unprocessableEntityResponse($message)
     {
         throw new HttpResponseException(
             response()->json([
                 'success' => 0,
                 'data' => [],
-                'error' => "Unauthorized: Not enough privileges",
-                'errors' => [],
-                'trace' => []
-            ], ResponseAlias::HTTP_UNPROCESSABLE_ENTITY)
-        );
-    }
-
-    protected function authenticationFailed()
-    {
-        throw new HttpResponseException(
-            response()->json([
-                'success' => 0,
-                'data' => [],
-                'error' => "Failed to authenticate user",
+                'error' => $message,
                 'errors' => [],
                 'trace' => []
             ], ResponseAlias::HTTP_UNPROCESSABLE_ENTITY)
@@ -88,6 +111,15 @@ class Controller extends BaseController
     protected function emptySuccessResponse()
     {
        return  (new BaseResource([]))
+            ->withSuccess(1)
+            ->withError(null)
+            ->withErrors([])
+            ->withExtra([]);
+    }
+
+    protected function customResponse($array): BaseResource
+    {
+        return (new BaseResource($array))
             ->withSuccess(1)
             ->withError(null)
             ->withErrors([])

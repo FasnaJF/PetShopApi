@@ -12,4 +12,10 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
         $this->model = $order;
     }
 
+
+    public function getOrdersForUser($userId)
+    {
+        return $this->model->where('user_id',$userId)->paginate();
+    }
+
 }

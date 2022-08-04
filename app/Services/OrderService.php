@@ -37,4 +37,9 @@ class OrderService
     {
         return $this->orderRepo->updateById($id, $data);
     }
+
+    public function getOrdersByUserId($userId)
+    {
+        return $this->orderRepo->getOrdersForUser($userId);
+    }
 }
