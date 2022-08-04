@@ -70,7 +70,7 @@ class OrderStatusController extends Controller
         $orderStatusDetails['uuid'] = Str::uuid();
         $orderStatus = $this->orderStatusService->createOrderStatus($orderStatusDetails);
 
-        return $this->returnResource(new OrderStatusResource($orderStatus));
+        return $this->customResponse(['uuid' => $orderStatus->uuid]);
     }
 
     /**

@@ -12,4 +12,9 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         $this->model = $product;
     }
 
+    public function getAll($sortBy = null)
+    {
+        return $this->model->paginate(10);
+    }
+
 }

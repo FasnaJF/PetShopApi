@@ -76,7 +76,7 @@ class PaymentController extends Controller
         $paymentDetails['details'] =json_decode($paymentDetails['details']);
         $paymentDetails['uuid'] = Str::uuid();
         $payment = $this->paymentService->createPayment($paymentDetails);
-        return $this->returnResource(new PaymentResource($payment));
+        return $this->customResponse(['uuid'=>$payment->uuid]);
     }
 
     /**

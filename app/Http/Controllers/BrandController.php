@@ -71,7 +71,7 @@ class BrandController extends Controller
         $brandDetails['slug'] = Str::slug($brandDetails['title']);
         $brand = $this->brandService->createBrand($brandDetails);
 
-        return $this->returnResource(new BrandResource($brand));
+        return $this->customResponse(['uuid' => $brand->uuid]);
     }
 
     /**

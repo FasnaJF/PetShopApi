@@ -3,28 +3,27 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CreateProductRequest extends BaseRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
     public function authorize()
     {
-        return false;
+        if (\auth()->user()) {
+            return true;
+        } else {
+            return $this->unauthorizedError();
+        }
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, mixed>
-     */
     public function rules()
     {
         return [
-            //
+            'category_uuid' => ['required', Rule::exists('categories', 'uuid')],
+            'title' => 'required|string|max:255',
+            'price' => 'required|numeric',
+            'description' => 'required|string|max:255',
+            'metadata' => 'required|string|json',
         ];
     }
 }

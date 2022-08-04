@@ -37,4 +37,14 @@ class ProductService
     {
         return $this->productRepo->updateById($id, $data);
     }
+
+    public function getProductByUUID($uuid)
+    {
+        return $this->productRepo->getByUUID($uuid);
+    }
+
+    public function getAllProducts()
+    {
+        return $this->productRepo->getAll();
+    }
 }

@@ -72,7 +72,7 @@ class CategoryController extends Controller
         $categoryDetails['slug'] = Str::slug($categoryDetails['title']);
         $category = $this->categoryService->createCategory($categoryDetails);
 
-        return $this->returnResource(new CategoryResource($category));
+        return $this->customResponse(['uuid' => $category->uuid]);
     }
 
     /**

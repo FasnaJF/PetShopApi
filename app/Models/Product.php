@@ -13,6 +13,14 @@ class Product extends Model
     use HasJsonRelationships;
 
 
+    protected $fillable =[
+        'uuid',
+        'category_uuid',
+        'title',
+        'price',
+        'description',
+        'metadata',
+    ];
     protected $casts = [
         'metadata' => 'json',
     ];
