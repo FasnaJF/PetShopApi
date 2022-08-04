@@ -12,6 +12,11 @@ class Payment extends Model
     use HasJsonRelationships;
 
 
+    protected $fillable = [
+        'uuid',
+        'type',
+        'details'
+    ];
     protected $casts = [
         'details' => 'json',
     ];

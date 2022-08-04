@@ -37,4 +37,14 @@ class PaymentService
     {
         return $this->paymentRepo->updateById($id, $data);
     }
+
+    public function getPaymentByUUID($uuid)
+    {
+        return $this->paymentRepo->getByUUID($uuid);
+    }
+
+    public function getAllPayments()
+    {
+        return $this->paymentRepo->getAll();
+    }
 }

@@ -12,4 +12,9 @@ class PaymentRepository extends BaseRepository implements PaymentRepositoryInter
         $this->model = $payment;
     }
 
+    public function getAll($sortBy = null)
+    {
+        return $this->model->paginate(10);
+    }
+
 }
