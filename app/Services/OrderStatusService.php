@@ -37,4 +37,14 @@ class OrderStatusService
     {
         return $this->orderStatusRepo->updateById($id, $data);
     }
+
+    public function getOrderStatusByUUID($uuid)
+    {
+        return $this->orderStatusRepo->getByUUID($uuid);
+    }
+
+    public function getAllOrderStatuss()
+    {
+        return $this->orderStatusRepo->getAll();
+    }
 }
