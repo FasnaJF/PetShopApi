@@ -13,7 +13,11 @@ class UpdateCategoryRequest extends BaseRequest
      */
     public function authorize()
     {
-        return false;
+        if (\auth()->user()) {
+            return true;
+        } else {
+            return $this->unauthorizedError();
+        }
     }
 
     /**
@@ -24,7 +28,7 @@ class UpdateCategoryRequest extends BaseRequest
     public function rules()
     {
         return [
-            //
+            'title' => 'required|string|max:255',
         ];
     }
 }

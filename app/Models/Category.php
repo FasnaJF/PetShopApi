@@ -9,6 +9,11 @@ class Category extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'uuid',
+        'title',
+        'slug'
+    ];
 
     public function products()
     {

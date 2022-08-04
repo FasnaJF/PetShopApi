@@ -18,6 +18,11 @@ class CategoryService
         return $this->categoryRepo->getById($id);
     }
 
+    public function getCategoryByUUID($uuid)
+    {
+        return $this->categoryRepo->getByUUID($uuid);
+    }
+
     public function createCategory($data)
     {
         return $this->categoryRepo->create($data);
@@ -36,5 +41,10 @@ class CategoryService
     public function updateCategory($id, $data)
     {
         return $this->categoryRepo->updateById($id, $data);
+    }
+
+    public function getAllCategories()
+    {
+        return $this->categoryRepo->getAll();
     }
 }

@@ -123,12 +123,7 @@ class AdminController extends Controller
                 ['user_id' => $user->id, 'unique_id' => $this->createJwtToken($user), 'token_title' => 'create_admin']
             );
         }
-
-        return (new UserResource($user))
-            ->withSuccess(1)
-            ->withError(null)
-            ->withErrors([])
-            ->withExtra([]);
+        return $this->returnResource(new UserResource($user));
     }
 
     /**
@@ -185,7 +180,7 @@ class AdminController extends Controller
     {
         $user = $this->userService->getUserByEmail($request->email);
         if (!$user) {
-            return $this->unprocessableEntityResponse( "Failed to authenticate user");
+            return $this->unprocessableEntityResponse("Failed to authenticate user");
         }
 
         $credentials = $request->only(['email', 'password']);
@@ -197,9 +192,8 @@ class AdminController extends Controller
             );
 
             return $this->customResponse(['token' => $jwtToken]);
-
         } else {
-            return $this->unprocessableEntityResponse( "Failed to authenticate user");
+            return $this->unprocessableEntityResponse("Failed to authenticate user");
         }
     }
 
@@ -337,11 +331,7 @@ class AdminController extends Controller
         }
         if ($user) {
             $updatedUser = $this->userService->updateUser($user->id, $request->all());
-            return (new UserResource($updatedUser))
-                ->withSuccess(1)
-                ->withError(null)
-                ->withErrors([])
-                ->withExtra([]);
+            return $this->returnResource(new UserResource($updatedUser));
         } else {
             return $this->resourceNotFound("User not found");
         }

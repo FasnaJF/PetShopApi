@@ -52,6 +52,11 @@ abstract class BaseRepository
         return $this->model->find($id)->delete();
     }
 
+    public function getByUUID($uuid)
+    {
+        return $this->model->where('uuid',$uuid)->first();
+    }
+
     public function getModel(): Model
     {
         return $this->model;

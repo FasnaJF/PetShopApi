@@ -15,5 +15,7 @@ interface BaseRepositoryInterface
     public function updateById($id, array $params);
     public function getModel() : Model;
     public function withTrashed();
+    public function getByUUID($uuid);
+
 
 }

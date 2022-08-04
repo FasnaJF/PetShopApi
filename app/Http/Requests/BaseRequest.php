@@ -34,4 +34,17 @@ class BaseRequest extends FormRequest
             ], ResponseAlias::HTTP_NOT_FOUND)
         );
     }
+
+    protected function unauthorizedError()
+    {
+        throw new HttpResponseException(
+            response()->json([
+                'success' => 0,
+                'data' => [],
+                'error' => "Unauthorized",
+                'errors' => [],
+                'trace' => []
+            ], ResponseAlias::HTTP_UNAUTHORIZED)
+        );
+    }
 }

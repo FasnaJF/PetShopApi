@@ -125,4 +125,12 @@ class Controller extends BaseController
             ->withErrors([])
             ->withExtra([]);
     }
+
+    protected function returnResource($resource){
+        return ($resource)
+            ->withSuccess(1)
+            ->withError(null)
+            ->withErrors([])
+            ->withExtra([]);
+    }
 }

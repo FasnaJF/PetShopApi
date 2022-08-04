@@ -30,7 +30,6 @@ class UserController extends Controller
         $this->jwtTokenService = $jwtTokenService;
         $this->userService = $userService;
         $this->orderService = $orderService;
-
     }
 
     /**
@@ -65,11 +64,7 @@ class UserController extends Controller
     public function getUser()
     {
         $user = Auth::user();
-        return (new UserResource($user))
-            ->withSuccess(1)
-            ->withError(null)
-            ->withErrors([])
-            ->withExtra([]);
+        return $this->returnResource(new UserResource($user));
     }
 
     /**
@@ -245,11 +240,7 @@ class UserController extends Controller
         }
         if ($user) {
             $updatedUser = $this->userService->updateUser($user->id, $request->all());
-            return (new UserResource($updatedUser))
-                ->withSuccess(1)
-                ->withError(null)
-                ->withErrors([])
-                ->withExtra([]);
+            return $this->returnResource(new UserResource($updatedUser));
         } else {
             return $this->resourceNotFound("User not found");
         }
@@ -319,11 +310,7 @@ class UserController extends Controller
             $this->jwtTokenService->createJwtToken(
                 ['user_id' => $user->id, 'unique_id' => $jwtToken, 'token_title' => 'user_login']
             );
-            return (new BaseResource(['token' => $jwtToken]))
-                ->withSuccess(1)
-                ->withError(null)
-                ->withErrors([])
-                ->withExtra([]);
+            return $this->customResponse(['token' => $jwtToken]);
         } else {
             return $this->unprocessableEntityResponse("Failed to authenticate user");
         }
@@ -460,12 +447,7 @@ class UserController extends Controller
                 ['user_id' => $user->id, 'unique_id' => $this->createJwtToken($user), 'token_title' => 'create_user']
             );
         }
-
-        return (new UserResource($user))
-            ->withSuccess(1)
-            ->withError(null)
-            ->withErrors([])
-            ->withExtra([]);
+        return $this->returnResource(new UserResource($user));
     }
 
     /**

@@ -17,11 +17,6 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         return  $this->model->where('email', $email)->first();
     }
 
-    public function getByUUID($uuid)
-    {
-        return  $this->model->where('uuid', $uuid)->first();
-    }
-
     public function getAll($sortBy = null)
     {
         return $this->model->paginate(10);
