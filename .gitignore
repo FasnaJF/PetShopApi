@@ -16,3 +16,4 @@ yarn-error.log
 /.vscode
 /dbdata/*
 /storage/api-docs/*
+/public/pet-shop/*
