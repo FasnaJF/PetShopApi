@@ -14,6 +14,12 @@ class Brand extends Model
 
     private BigInteger $id;
 
+    protected $fillable = [
+        'uuid',
+        'title',
+        'slug'
+    ];
+
     public function products()
     {
         return $this->hasMany(Product::class, 'metadata->brand', 'uuid');

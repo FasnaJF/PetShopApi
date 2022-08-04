@@ -12,4 +12,9 @@ class BrandRepository extends BaseRepository implements BrandRepositoryInterface
         $this->model = $brand;
     }
 
+    public function getAll($sortBy = null)
+    {
+        return $this->model->paginate(10);
+    }
+
 }

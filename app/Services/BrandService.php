@@ -37,4 +37,14 @@ class BrandService
     {
         return $this->brandRepo->updateById($id, $data);
     }
+
+    public function getBrandByUUID($uuid)
+    {
+        return $this->brandRepo->getByUUID($uuid);
+    }
+
+    public function getAllBrands()
+    {
+        return $this->brandRepo->getAll();
+    }
 }
