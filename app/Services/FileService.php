@@ -37,4 +37,9 @@ class FileService
     {
         return $this->fileRepo->updateById($id, $data);
     }
+
+    public function getFileByUUID($uuid)
+    {
+        return $this->fileRepo->getByUUID($uuid);
+    }
 }
