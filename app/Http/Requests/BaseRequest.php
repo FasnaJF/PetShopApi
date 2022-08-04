@@ -11,23 +11,27 @@ class BaseRequest extends FormRequest
 {
     protected function failedValidation(Validator $validator)
     {
-        throw new HttpResponseException(response()->json([
-            'success' => 0,
-            'data' =>[],
-            'error' => "Failed Validation",
-            'errors' => $validator->errors(),
-            'trace' => []
-        ], ResponseAlias::HTTP_UNPROCESSABLE_ENTITY));
+        throw new HttpResponseException(
+            response()->json([
+                'success' => 0,
+                'data' => [],
+                'error' => "Failed Validation",
+                'errors' => $validator->errors(),
+                'trace' => []
+            ], ResponseAlias::HTTP_UNPROCESSABLE_ENTITY)
+        );
     }
 
     protected function resourceNotFound($message)
     {
-        throw new HttpResponseException(response()->json([
-            'success' => 0,
-            'data' =>[],
-            'error' => $message,
-            'errors' => [],
-            'trace' => []
-        ], ResponseAlias::HTTP_NOT_FOUND));
+        throw new HttpResponseException(
+            response()->json([
+                'success' => 0,
+                'data' => [],
+                'error' => $message,
+                'errors' => [],
+                'trace' => []
+            ], ResponseAlias::HTTP_NOT_FOUND)
+        );
     }
 }
