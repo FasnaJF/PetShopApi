@@ -42,4 +42,26 @@ class OrderService
     {
         return $this->orderRepo->getOrdersForUser($userId);
     }
+
+    public function getOrderByUUID($uuid)
+    {
+        return $this->orderRepo->getByUUID($uuid);
+    }
+
+    public function getAllOrders()
+    {
+        return $this->orderRepo->getAll();
+    }
+
+    public function getAllShippedOrders($request)
+    {
+        return $this->orderRepo->getAllShippedOrders($request);
+    }
+
+    public function getAllOrdersDashboard($request)
+    {
+        return $this->orderRepo->getAllOrdersDashboard($request);
+    }
+
+
 }

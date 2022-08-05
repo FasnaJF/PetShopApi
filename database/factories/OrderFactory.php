@@ -8,6 +8,7 @@ use App\Models\OrderStatus;
 use App\Models\Payment;
 use App\Models\Product;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -20,13 +21,13 @@ class OrderFactory extends Factory
     public function definition()
     {
         $amount = 0;
-        $user_ids = User::select('id')->get();
-        $user_id = fake()->randomElement($user_ids)->id;
-        $payment_ids = Payment::select('id')->get();
-        $payment_id = fake()->randomElement($payment_ids)->id;
-        $order_status_ids = OrderStatus::select('id', 'title')->get();
-        $order_status_id = fake()->randomElement($order_status_ids)->id;
-        $order_status = OrderStatus::where('id', $order_status_id)->pluck('title')->first();
+        $user_ids = User::select('uuid')->get();
+        $user_id = fake()->randomElement($user_ids)->uuid;
+        $payment_ids = Payment::select('uuid')->get();
+        $payment_id = fake()->randomElement($payment_ids)->uuid;
+        $order_status_ids = OrderStatus::select('uuid', 'title')->get();
+        $order_status_id = fake()->randomElement($order_status_ids)->uuid;
+        $order_status = OrderStatus::where('uuid', $order_status_id)->pluck('title')->first();
 
         if (!in_array($order_status, ['paid', 'shipped'])) {
             $payment_id = null;
@@ -45,15 +46,18 @@ class OrderFactory extends Factory
             $purchasedProducts[] = $purchasedProduct;
         }
 
-        $shippedTime = [now(), null];
+        $date = Carbon::now();
+        $monthDate = Carbon::now()->startOfMonth()->subDays(5);
+        $weekDate = Carbon::now()->subDays(12);
+        $shippedTime = [$date, $monthDate,$weekDate ];
 
         return [
             'user_id' => $user_id,
             'order_status_id' => $order_status_id,
             'payment_id' => $payment_id,
             'uuid' => Str::uuid(),
-            'products' => json_encode($purchasedProducts),
-            'address' => json_encode([
+            'products' => ($purchasedProducts),
+            'address' => ([
                 'billing' => fake()->address(),
                 'shipping' => fake()->address()
             ]),
@@ -61,7 +65,7 @@ class OrderFactory extends Factory
             'amount' => $amount,
             'created_at' => now(),
             'updated_at' => now(),
-            'shipped_at' => $shippedTime[array_rand($shippedTime)],
+            'shipped_at' => ($payment_id) ? $shippedTime[array_rand($shippedTime)] : null,
         ];
     }
 }

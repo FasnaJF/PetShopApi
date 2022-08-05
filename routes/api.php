@@ -70,9 +70,11 @@ Route::prefix('v1')->group(function () {
             Route::post('/order/create', 'create');
             Route::put('/order/{uuid}', 'update');
             Route::delete('/order/{uuid}', 'destroy');
-            Route::get('/order/{uuid}/download', 'downloadOrder');
-            Route::get('/orders/dashboard', 'dashboard');
-            Route::get('/orders/shipment-locator', 'shipmentLocator');
+            Route::middleware(['isAdmin'])->group(function () {
+                Route::get('/order/{uuid}/download', 'downloadOrder');
+                Route::get('/orders/dashboard', 'dashboard');
+                Route::get('/orders/shipment-locator', 'shipmentLocator');
+            });
         });
     });
 
