@@ -6,8 +6,11 @@ use App\Http\Requests\CreateOrderRequest;
 use App\Http\Requests\GetOrdersRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Http\Resources\OrderResource;
+use App\Models\Product;
+use App\Models\User;
 use App\Services\OrderService;
 use App\Services\ProductService;
+use Barryvdh\DomPDF\PDF;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -553,4 +556,70 @@ class OrderController extends Controller
         return OrderResource::collection($this->orderService->getAllOrdersDashboard($request));
     }
 
+    /**
+     * Download an order
+     * @OA\Get (
+     *     path="/api/v1/order/{uuid}/download",
+     *     operationId="orders-download",
+     *     tags={"Orders"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         in="path",
+     *         name="uuid",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="OK",
+     *     ),
+     *      @OA\Response(
+     *         response=401,
+     *         description="Unauthorized",
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Page not found",
+     *     ),
+     *      @OA\Response(
+     *         response=422,
+     *         description="Unprocessable Entity",
+     *     ),
+     *      @OA\Response(
+     *         response=500,
+     *         description="Internal server error",
+     *     ),
+     *
+     * )
+     */
+    public function downloadOrder(Request $request)
+    {
+        $order = $this->orderService->getOrderByUUID($request->uuid);
+        if (!$order) {
+            return $this->resourceNotFound("Order not found");
+        }
+        $orderProducts = [];
+        $i= 1;
+        $amount = 0;
+
+        foreach ($order->products as $orderProduct) {
+            $product = Product::where('uuid', $orderProduct['product'])->select('title', 'price')->first();
+            $orderProductDetail['id'] = $i;
+            $orderProductDetail['uuid'] = $orderProduct['product'];
+            $orderProductDetail['price'] = $product->price;
+            $orderProductDetail['product'] = $product->title;
+            $orderProductDetail['quantity'] = $orderProduct['quantity'];
+            $orderProducts[] = $orderProductDetail;
+            $amount += $orderProduct['quantity'] * $product->price;
+            $i++;
+        }
+
+        $order = $this->orderService->getOrderByUUID($request->uuid);
+        $order['order_products'] = $orderProducts;
+        $order['amount'] = $amount;
+        $order['delivery_fee'] = ($amount < 500)? 15 : 0;
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('order_details', compact('order'));
+
+        return $pdf->download($order->uuid . '.pdf');
+    }
 }
