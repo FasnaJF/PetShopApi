@@ -17,7 +17,7 @@ class CategoryFactory extends Factory
      */
     public function definition()
     {
-        $title = fake()->words(rand(1,4),true);
+        $title = fake()->words(rand(1, 4), true);
         $slug = Str::slug($title);
         return [
             'uuid' => Str::uuid(),

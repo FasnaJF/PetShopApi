@@ -73,10 +73,10 @@ class PaymentController extends Controller
     public function create(CreatePaymentRequest $request)
     {
         $paymentDetails = $request->validated();
-        $paymentDetails['details'] =json_decode($paymentDetails['details']);
+        $paymentDetails['details'] = json_decode($paymentDetails['details']);
         $paymentDetails['uuid'] = Str::uuid();
         $payment = $this->paymentService->createPayment($paymentDetails);
-        return $this->customResponse(['uuid'=>$payment->uuid]);
+        return $this->customResponse(['uuid' => $payment->uuid]);
     }
 
     /**
@@ -141,7 +141,7 @@ class PaymentController extends Controller
     {
         $paymentDetails = $request->validated();
         $payment = $this->paymentService->getPaymentByUUID($request->uuid);
-        $paymentDetails['details'] =json_decode($paymentDetails['details']);
+        $paymentDetails['details'] = json_decode($paymentDetails['details']);
 
         if ($payment) {
             $updatedPayment = $this->paymentService->updatePayment($payment->id, $paymentDetails);

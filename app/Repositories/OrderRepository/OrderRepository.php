@@ -2,8 +2,8 @@
 
 namespace App\Repositories\OrderRepository;
 
-use App\Repositories\BaseRepository;
 use App\Models\Order;
+use App\Repositories\BaseRepository;
 use Carbon\Carbon;
 
 class OrderRepository extends BaseRepository implements OrderRepositoryInterface
@@ -26,8 +26,8 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
 
     public function getAllShippedOrders($request)
     {
-        $limit = $request->input('limit')? $request->input('limit'):null;
-        $sortBy = $request->input('sortBy')? $request->input('sortBy'): 'id' ;
+        $limit = $request->input('limit') ? $request->input('limit') : null;
+        $sortBy = $request->input('sortBy') ? $request->input('sortBy') : 'id';
         $desc = ($request->input('desc') == 'true') ? 'DESC' : 'ASC';
         $sortBy = [$sortBy, $desc];
         $orderUuid = $request->input('orderUuid');
@@ -42,7 +42,8 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
             })
             ->when($dateRange, function ($query, $dateRange) {
                 return $query
-                    ->whereBetween('shipped_at',
+                    ->whereBetween(
+                        'shipped_at',
                         [
                             Carbon::parse($dateRange['from'])->toDatetimeString(),
                             Carbon::parse($dateRange['to'])->toDatetimeString()
@@ -54,35 +55,7 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
             })
             ->whereNotNull('shipped_at')
             ->when($sortBy, function ($query, $sortBy) {
-                return $query->orderBy($sortBy[0],$sortBy[1]);
-            })
-            ->paginate($limit);
-
-        return $orders;
-    }
-
-    public function getAllOrdersDashboard($request)
-    {
-        $limit = $request->input('limit')? $request->input('limit'):null;
-        $sortBy = $request->input('sortBy')? $request->input('sortBy'): 'id' ;
-        $desc = ($request->input('desc') == 'true') ? 'DESC' : 'ASC';
-        $sortBy = [$sortBy, $desc];
-        $dateRange = $request->input('dateRange');
-        $fixRange = $request->input('fixRange');
-        $dateRange = $this->getFixedRangeDate($fixRange);
-
-        $orders = $this->model
-            ->when($dateRange, function ($query, $dateRange) {
-                return $query
-                    ->whereBetween('created_at',
-                        [
-                            Carbon::parse($dateRange['from'])->toDatetimeString(),
-                            Carbon::parse($dateRange['to'])->toDatetimeString()
-                        ]
-                    );
-            })
-            ->when($sortBy, function ($query, $sortBy) {
-                return $query->orderBy($sortBy[0],$sortBy[1]);
+                return $query->orderBy($sortBy[0], $sortBy[1]);
             })
             ->paginate($limit);
 
@@ -109,6 +82,35 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
                 $dateRange['to'] = Carbon::now()->toDateTimeString();
         }
         return $dateRange;
+    }
+
+    public function getAllOrdersDashboard($request)
+    {
+        $limit = $request->input('limit') ? $request->input('limit') : null;
+        $sortBy = $request->input('sortBy') ? $request->input('sortBy') : 'id';
+        $desc = ($request->input('desc') == 'true') ? 'DESC' : 'ASC';
+        $sortBy = [$sortBy, $desc];
+        $dateRange = $request->input('dateRange');
+        $fixRange = $request->input('fixRange');
+        $dateRange = $this->getFixedRangeDate($fixRange);
+
+        $orders = $this->model
+            ->when($dateRange, function ($query, $dateRange) {
+                return $query
+                    ->whereBetween(
+                        'created_at',
+                        [
+                            Carbon::parse($dateRange['from'])->toDatetimeString(),
+                            Carbon::parse($dateRange['to'])->toDatetimeString()
+                        ]
+                    );
+            })
+            ->when($sortBy, function ($query, $sortBy) {
+                return $query->orderBy($sortBy[0], $sortBy[1]);
+            })
+            ->paginate($limit);
+
+        return $orders;
     }
 
 }

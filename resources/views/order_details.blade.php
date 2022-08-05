@@ -36,8 +36,8 @@
             Billing/Shipping Details
 
             <div class="col-md-12" style="border: medium black solid;">
-                Billing:  {{$order->address['billing']}}<br>
-                Shipping:  {{$order->address['shipping']}}<br>
+                Billing: {{$order->address['billing']}}<br>
+                Shipping: {{$order->address['shipping']}}<br>
                 <br>
                 @isset($order->payment_id)
                     Payment Method: {{strtoupper($order->payment['type'])}}<br>
@@ -65,26 +65,26 @@
             </thead>
             <tbody style="border: 1px solid;">
             @foreach($order->order_products as $product)
-            <tr style="border: 1px solid;">
-                <td>
-                    {{$product['id']}}
-                </td>
-                <td>
-                    {{$product['uuid']}}
-                </td>
-                <td>
-                    {{$product['product']}}
-                </td>
-                <td>
-                    {{$product['quantity']}}
-                </td>
-                <td>
-                    {{$product['price']}}
-                </td>
-                <td>
-                    {{$product['quantity']*$product['price']}}
-                </td>
-            </tr>
+                <tr style="border: 1px solid;">
+                    <td>
+                        {{$product['id']}}
+                    </td>
+                    <td>
+                        {{$product['uuid']}}
+                    </td>
+                    <td>
+                        {{$product['product']}}
+                    </td>
+                    <td>
+                        {{$product['quantity']}}
+                    </td>
+                    <td>
+                        {{$product['price']}}
+                    </td>
+                    <td>
+                        {{$product['quantity']*$product['price']}}
+                    </td>
+                </tr>
             @endforeach
             </tbody>
         </table>

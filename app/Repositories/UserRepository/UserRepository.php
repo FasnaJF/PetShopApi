@@ -2,9 +2,8 @@
 
 namespace App\Repositories\UserRepository;
 
-use App\Repositories\BaseRepository;
 use App\Models\User;
-use Carbon\Carbon;
+use App\Repositories\BaseRepository;
 
 class UserRepository extends BaseRepository implements UserRepositoryInterface
 {
@@ -26,7 +25,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     public function getAllUsers($request)
     {
         $limit = $request->input('limit') ? $request->input('limit') : null;
-        $sortBy = $request->input('sortBy')? $request->input('sortBy'): 'id' ;
+        $sortBy = $request->input('sortBy') ? $request->input('sortBy') : 'id';
         $desc = ($request->input('desc') == 'true') ? 'DESC' : 'ASC';
         $sortBy = [$sortBy, $desc];
         $first_name = $request->input('first_name');
@@ -56,7 +55,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
                 return $query->where('created_at', $created_at);
             })
             ->when($sortBy, function ($query, $sortBy) {
-                return $query->orderBy($sortBy[0],$sortBy[1]);
+                return $query->orderBy($sortBy[0], $sortBy[1]);
             })
             ->paginate($limit);
 

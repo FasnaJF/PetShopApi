@@ -9,7 +9,7 @@ class File extends Model
 {
     use HasFactory;
 
-    protected $fillable=[
+    protected $fillable = [
         'uuid',
         'name',
         'path',

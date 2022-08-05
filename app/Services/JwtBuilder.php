@@ -14,6 +14,12 @@ class JwtBuilder
         return $this->registerClaim('iss', $val);
     }
 
+    protected function registerClaim(string $name, string $val): self
+    {
+        $this->claims[$name] = $val;
+        return $this;
+    }
+
     public function issuedAt(CarbonInterface $dateTime)
     {
         return $this->registerClaim('iat', $dateTime->timestamp);
@@ -23,7 +29,6 @@ class JwtBuilder
     {
         return $this->registerClaim('sub', $val);
     }
-
 
     public function audience($name)
     {
@@ -45,17 +50,17 @@ class JwtBuilder
         return $this->registerClaim('nbf', $carbon->timestamp);
     }
 
-    public function withClaim($name, $value)
-    {
-        return $this->registerClaim($name, $value);
-    }
-
     public function withClaims(array $claims): self
     {
         foreach ($claims as $name => $value) {
             $this->withClaim($name, $value);
         }
         return $this;
+    }
+
+    public function withClaim($name, $value)
+    {
+        return $this->registerClaim($name, $value);
     }
 
     public function getToken()
@@ -65,18 +70,11 @@ class JwtBuilder
 
     protected function getPrivateKey(): string
     {
-
         return file_get_contents(config('jwt.private_key'));
     }
 
     protected function getAlgo()
     {
         return config('jwt.encrypt_algo');
-    }
-
-    protected function registerClaim(string $name, string $val): self
-    {
-        $this->claims[$name] = $val;
-        return $this;
     }
 }

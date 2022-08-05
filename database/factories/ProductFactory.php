@@ -27,13 +27,13 @@ class ProductFactory extends Factory
 
         return [
             'category_uuid' => $category_uuid,
-            'title' => fake()->words(rand(6,10),true),
+            'title' => fake()->words(rand(6, 10), true),
             'uuid' => Str::uuid(),
-            'price' => fake()->randomFloat(2,10,50),
+            'price' => fake()->randomFloat(2, 10, 50),
             'description' => fake()->sentence(),
             'metadata' => ([
-                'brand'=> $brand_uuid,
-                'image' =>''
+                'brand' => $brand_uuid,
+                'image' => ''
             ]),
             'created_at' => now(),
             'updated_at' => now(),

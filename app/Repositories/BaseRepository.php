@@ -54,7 +54,7 @@ abstract class BaseRepository
 
     public function getByUUID($uuid)
     {
-        return $this->model->where('uuid',$uuid)->first();
+        return $this->model->where('uuid', $uuid)->first();
     }
 
     public function getModel(): Model
@@ -70,14 +70,14 @@ abstract class BaseRepository
 
     public function getAllWithQueryParams($request)
     {
-        $limit = $request->input('limit')? $request->input('limit'):null;
-        $sortBy = $request->input('sortBy')? $request->input('sortBy'): 'id' ;
+        $limit = $request->input('limit') ? $request->input('limit') : null;
+        $sortBy = $request->input('sortBy') ? $request->input('sortBy') : 'id';
         $desc = ($request->input('desc') == 'true') ? 'DESC' : 'ASC';
         $sortBy = [$sortBy, $desc];
 
         return $this->model
             ->when($sortBy, function ($query, $sortBy) {
-                return $query->orderBy($sortBy[0],$sortBy[1]);
+                return $query->orderBy($sortBy[0], $sortBy[1]);
             })
             ->paginate($limit);
     }

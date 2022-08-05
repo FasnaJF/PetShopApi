@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateUserRequest;
+use App\Http\Requests\EditUserRequest;
 use App\Http\Requests\ForgotPasswordRequest;
 use App\Http\Requests\LoginRequest;
-use App\Http\Requests\EditUserRequest;
 use App\Http\Requests\ResetPasswordTokenRequest;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\OrderResource;
@@ -13,7 +13,6 @@ use App\Http\Resources\UserResource;
 use App\Services\JwtTokenService;
 use App\Services\OrderService;
 use App\Services\UserService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;

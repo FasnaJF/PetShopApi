@@ -2,8 +2,8 @@
 
 namespace App\Repositories\OrderStatusRepository;
 
-use App\Repositories\BaseRepository;
 use App\Models\OrderStatus;
+use App\Repositories\BaseRepository;
 
 class OrderStatusRepository extends BaseRepository implements OrderStatusRepositoryInterface
 {

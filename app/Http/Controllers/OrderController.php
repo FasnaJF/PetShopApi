@@ -2,22 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateOrderRequest;
 use App\Http\Requests\GetOrdersRequest;
-use App\Http\Requests\UpdateOrderRequest;
 use App\Http\Resources\OrderResource;
 use App\Models\Product;
-use App\Models\User;
 use App\Services\OrderService;
 use App\Services\ProductService;
-use Barryvdh\DomPDF\PDF;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
-
-use function PHPUnit\Framework\assertJson;
-use function PHPUnit\Framework\isJson;
 
 class OrderController extends Controller
 {
@@ -595,7 +585,7 @@ class OrderController extends Controller
             return $this->resourceNotFound("Order not found");
         }
         $orderProducts = [];
-        $i= 1;
+        $i = 1;
         $amount = 0;
 
         foreach ($order->products as $orderProduct) {
@@ -613,7 +603,7 @@ class OrderController extends Controller
         $order = $this->orderService->getOrderByUUID($request->uuid);
         $order['order_products'] = $orderProducts;
         $order['amount'] = $amount;
-        $order['delivery_fee'] = ($amount < 500)? 15 : 0;
+        $order['delivery_fee'] = ($amount < 500) ? 15 : 0;
         $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('order_details', compact('order'));
 
         return $pdf->download($order->uuid . '.pdf');

@@ -2,8 +2,8 @@
 
 namespace App\Repositories\JwtTokenRepository;
 
-use App\Repositories\BaseRepository;
 use App\Models\JwtToken;
+use App\Repositories\BaseRepository;
 
 class JwtTokenRepository extends BaseRepository implements JwtTokenRepositoryInterface
 {

@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Concerns\HasRelationships;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Staudenmeir\EloquentJsonRelations\HasJsonRelationships;
@@ -13,7 +12,7 @@ class Product extends Model
     use HasJsonRelationships;
 
 
-    protected $fillable =[
+    protected $fillable = [
         'uuid',
         'category_uuid',
         'title',

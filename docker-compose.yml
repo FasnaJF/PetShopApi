@@ -28,10 +28,10 @@ services:
         container_name: database
         restart: unless-stopped
         volumes:
-                - ./dbdata:/var/lib/mysql
+            - ./dbdata:/var/lib/mysql
         environment:
-                - "MYSQL_ROOT_PASSWORD=password"
-                - "MYSQL_DATABASE=pet_shop"
+            - "MYSQL_ROOT_PASSWORD=password"
+            - "MYSQL_DATABASE=pet_shop"
         ports:
-                - "33063:3306"
+            - "33063:3306"
 

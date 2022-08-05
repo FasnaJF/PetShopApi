@@ -2,8 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Brand;
-use App\Models\Category;
 use App\Models\OrderStatus;
 use App\Models\Payment;
 use App\Models\Product;
@@ -49,7 +47,7 @@ class OrderFactory extends Factory
         $date = Carbon::now();
         $monthDate = Carbon::now()->startOfMonth()->subDays(5);
         $weekDate = Carbon::now()->subDays(12);
-        $shippedTime = [$date, $monthDate,$weekDate ];
+        $shippedTime = [$date, $monthDate, $weekDate];
 
         return [
             'user_id' => $user_id,

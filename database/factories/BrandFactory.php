@@ -17,7 +17,7 @@ class BrandFactory extends Factory
      */
     public function definition()
     {
-        $title = fake()->words(rand(1,2),true);
+        $title = fake()->words(rand(1, 2), true);
         $slug = Str::slug($title);
         return [
             'uuid' => Str::uuid(),

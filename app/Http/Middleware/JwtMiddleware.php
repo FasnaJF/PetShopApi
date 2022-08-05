@@ -18,13 +18,15 @@ class JwtMiddleware
     {
         $token = $request->get('token') ?? $request->bearerToken();
         if (!$token) {
-            throw new HttpResponseException(response()->json([
-                'success' => 0,
-                'data' =>[],
-                'error' => "Unauthorized",
-                'errors' => [],
-                'trace' => []
-            ], ResponseAlias::HTTP_UNAUTHORIZED));
+            throw new HttpResponseException(
+                response()->json([
+                    'success' => 0,
+                    'data' => [],
+                    'error' => "Unauthorized",
+                    'errors' => [],
+                    'trace' => []
+                ], ResponseAlias::HTTP_UNAUTHORIZED)
+            );
         }
         try {
             $parser = new JwtParser($token);
@@ -32,24 +34,26 @@ class JwtMiddleware
             Auth::loginUsingId($user->id);
             $request->auth = $user;
             return $next($request);
-        }
-        catch (ExpiredException $e) {
-            throw new HttpResponseException(response()->json([
-                'success' => 0,
-                'data' =>[],
-                'error' => "Unauthorized",
-                'errors' => [],
-                'trace' => []
-            ], ResponseAlias::HTTP_UNAUTHORIZED));
-        }
-        catch (\Exception $e) {
-            throw new HttpResponseException(response()->json([
-                'success' => 0,
-                'data' =>[],
-                'error' => "Unauthorized",
-                'errors' => [],
-                'trace' => []
-            ], ResponseAlias::HTTP_UNAUTHORIZED));
+        } catch (ExpiredException $e) {
+            throw new HttpResponseException(
+                response()->json([
+                    'success' => 0,
+                    'data' => [],
+                    'error' => "Unauthorized",
+                    'errors' => [],
+                    'trace' => []
+                ], ResponseAlias::HTTP_UNAUTHORIZED)
+            );
+        } catch (\Exception $e) {
+            throw new HttpResponseException(
+                response()->json([
+                    'success' => 0,
+                    'data' => [],
+                    'error' => "Unauthorized",
+                    'errors' => [],
+                    'trace' => []
+                ], ResponseAlias::HTTP_UNAUTHORIZED)
+            );
         }
     }
 }

@@ -13,11 +13,6 @@ class UserService
         $this->userRepo = $userRepo;
     }
 
-    public function getUserById($id)
-    {
-        return $this->userRepo->getById($id);
-    }
-
     public function createUser($data)
     {
         return $this->userRepo->create($data);
@@ -35,11 +30,16 @@ class UserService
 
     public function updateUser($id, $data)
     {
-        $user =  $this->userRepo->updateById($id, $data);
-        if($user){
+        $user = $this->userRepo->updateById($id, $data);
+        if ($user) {
             return $this->getUserById($user->id);
         }
         return false;
+    }
+
+    public function getUserById($id)
+    {
+        return $this->userRepo->getById($id);
     }
 
     public function getAllUsers($request)

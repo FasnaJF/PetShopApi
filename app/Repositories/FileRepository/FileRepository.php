@@ -2,8 +2,8 @@
 
 namespace App\Repositories\FileRepository;
 
-use App\Repositories\BaseRepository;
 use App\Models\File;
+use App\Repositories\BaseRepository;
 
 class FileRepository extends BaseRepository implements FileRepositoryInterface
 {

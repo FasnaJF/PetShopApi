@@ -39,7 +39,7 @@ class RepositoryServiceProvider extends ServiceProvider
         JwtTokenRepositoryInterface::class => JwtTokenRepository::class,
         OrderStatusRepositoryInterface::class => OrderStatusRepository::class,
 
-        ];
+    ];
 
     public function register()
     {

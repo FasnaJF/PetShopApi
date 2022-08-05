@@ -8,7 +8,6 @@ class PaymentResource extends BaseResource
 
     public function toArray($request)
     {
-
         if (isset($this->uuid)) {
             return [
                 'uuid' => $this->uuid,
@@ -29,6 +28,5 @@ class PaymentResource extends BaseResource
                 ];
             })
         ];
-
     }
 }

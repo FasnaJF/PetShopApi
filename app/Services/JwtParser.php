@@ -15,6 +15,21 @@ class JwtParser
         $this->claims = JWT::decode($token, new Key($this->getPublicKey(), $this->supportedAlgos()));
     }
 
+    protected function getLeeway()
+    {
+        return config('jwt.leeway');
+    }
+
+    protected function getPublicKey(): string
+    {
+        return file_get_contents(config('jwt.public_key'));
+    }
+
+    protected function supportedAlgos()
+    {
+        return config('jwt.supported_algos');
+    }
+
     public static function loadFromToken(string $token)
     {
         return new self($token);
@@ -23,6 +38,11 @@ class JwtParser
     public function getIssuedBy()
     {
         return $this->getClaim('iss');
+    }
+
+    protected function getClaim(string $name)
+    {
+        return $this->claims->{$name} ?? null;
     }
 
     public function getIssuedAt()
@@ -55,28 +75,8 @@ class JwtParser
         return $this->getClaim('nbf');
     }
 
-    protected function getClaim(string $name)
-    {
-        return $this->claims->{$name} ?? null;
-    }
-
-    protected function getPublicKey(): string
-    {
-        return file_get_contents(config('jwt.public_key'));
-    }
-
     protected function getAlgo()
     {
         return config('jwt.encrypt_algo');
-    }
-
-    protected function getLeeway()
-    {
-        return config('jwt.leeway');
-    }
-
-    protected function supportedAlgos()
-    {
-        return config('jwt.supported_algos');
     }
 }

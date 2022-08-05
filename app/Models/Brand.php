@@ -12,13 +12,12 @@ class Brand extends Model
     use HasFactory;
     use HasJsonRelationships;
 
-    private BigInteger $id;
-
     protected $fillable = [
         'uuid',
         'title',
         'slug'
     ];
+    private BigInteger $id;
 
     public function products()
     {

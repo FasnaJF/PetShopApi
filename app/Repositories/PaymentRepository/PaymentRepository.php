@@ -2,8 +2,8 @@
 
 namespace App\Repositories\PaymentRepository;
 
-use App\Repositories\BaseRepository;
 use App\Models\Payment;
+use App\Repositories\BaseRepository;
 
 class PaymentRepository extends BaseRepository implements PaymentRepositoryInterface
 {

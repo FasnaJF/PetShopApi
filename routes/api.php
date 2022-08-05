@@ -1,15 +1,15 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BrandController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\FileController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OrderStatusController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-use \App\Http\Controllers\AdminController;
-use \App\Http\Controllers\UserController;
-use \App\Http\Controllers\OrderController;
-use \App\Http\Controllers\ProductController;
-use \App\Http\Controllers\FileController;
-use \App\Http\Controllers\CategoryController;
-use \App\Http\Controllers\BrandController;
-use \App\Http\Controllers\PaymentController;
-use \App\Http\Controllers\OrderStatusController;
 
 Route::prefix('v1')->group(function () {
     Route::prefix('admin')->group(function () {

@@ -2,9 +2,8 @@
 
 namespace App\Repositories\BrandRepository;
 
-use App\Repositories\BaseRepository;
 use App\Models\Brand;
-use Carbon\Carbon;
+use App\Repositories\BaseRepository;
 
 class BrandRepository extends BaseRepository implements BrandRepositoryInterface
 {
@@ -15,7 +14,7 @@ class BrandRepository extends BaseRepository implements BrandRepositoryInterface
 
     public function getAllBrands($request)
     {
-       return $this->getAllWithQueryParams($request);
+        return $this->getAllWithQueryParams($request);
     }
 
 }

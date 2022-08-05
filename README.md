@@ -1,48 +1,48 @@
 How To Set up Pet Shop API Project
 
-1. copy the .env.example to .env file 
+1. copy the .env.example to .env file
 
 2. Now generate the public,private key pair for jwt using
-      `bash key_generate.sh`
+   `bash key_generate.sh`
 
 3. Run the following in root of the project directory
-      `docker-compose up -d --build`
+   `docker-compose up -d --build`
 
 4. Now check the containers are up and ready by running
-      `docker ps`
+   `docker ps`
 5. Now login to the database container of the project using following commands
-    
-    `docker exec -ti database sh` 
 
-    `mysql -uroot -ppassword -hdatabase`
+   `docker exec -ti database sh`
 
-    and create the db `CREATE DATABASE pet_shop;`
-   
-    Now run `exit` two times.
+   `mysql -uroot -ppassword -hdatabase`
+
+   and create the db `CREATE DATABASE pet_shop;`
+
+   Now run `exit` two times.
 
 6. Now you'll be in root directory again, use the following to login to the app container
-    
-    `docker exec -ti petshopapi_app_1 sh` 
-    
-    While you're inside the container run the following commands
 
-    `chmod -R 777 /var/www/storage` <!-- run this command, if there's a permission error -->
+   `docker exec -ti petshopapi_app_1 sh`
 
-    `composer install`
+   While you're inside the container run the following commands
 
-    `php artisan key:generate`
+   `chmod -R 777 /var/www/storage` <!-- run this command, if there's a permission error -->
 
-    `php artisan migrate`
-    
-    `php artisan db:seed`
+   `composer install`
+
+   `php artisan key:generate`
+
+   `php artisan migrate`
+
+   `php artisan db:seed`
 
 8. To generate the api documentation run the following inside the app conatiner
-    
-    `php artisan l5-swagger:generate`
 
-    Now you can access the Swagger UI in
-   
-    `http://localhost:8080/api/v1/documentation`
+   `php artisan l5-swagger:generate`
+
+   Now you can access the Swagger UI in
+
+   `http://localhost:8080/api/v1/documentation`
 
 User details:
 

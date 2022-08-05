@@ -8,7 +8,6 @@ use Closure;
 use Firebase\JWT\ExpiredException;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class IsAdmin
@@ -18,40 +17,43 @@ class IsAdmin
     {
         $token = $request->get('token') ?? $request->bearerToken();
         if (!$token) {
-            throw new HttpResponseException(response()->json([
-                'success' => 0,
-                'data' =>[],
-                'error' => "Unauthorized",
-                'errors' => [],
-                'trace' => []
-            ], ResponseAlias::HTTP_UNAUTHORIZED));
+            throw new HttpResponseException(
+                response()->json([
+                    'success' => 0,
+                    'data' => [],
+                    'error' => "Unauthorized",
+                    'errors' => [],
+                    'trace' => []
+                ], ResponseAlias::HTTP_UNAUTHORIZED)
+            );
         }
         try {
             $parser = new JwtParser($token);
             $user = User::find($parser->getRelatedTo());
 
-            if($user->is_admin){
+            if ($user->is_admin) {
                 return $next($request);
-            }else{
-                throw new HttpResponseException(response()->json([
+            } else {
+                throw new HttpResponseException(
+                    response()->json([
+                        'success' => 0,
+                        'data' => [],
+                        'error' => "Unauthorized: Not enough privileges",
+                        'errors' => [],
+                        'trace' => []
+                    ], ResponseAlias::HTTP_UNPROCESSABLE_ENTITY)
+                );
+            }
+        } catch (ExpiredException $e) {
+            throw new HttpResponseException(
+                response()->json([
                     'success' => 0,
-                    'data' =>[],
-                    'error' => "Unauthorized: Not enough privileges",
+                    'data' => [],
+                    'error' => "Unauthorized",
                     'errors' => [],
                     'trace' => []
-                ], ResponseAlias::HTTP_UNPROCESSABLE_ENTITY));
-
-            }
-
-        }
-        catch (ExpiredException $e) {
-            throw new HttpResponseException(response()->json([
-                'success' => 0,
-                'data' =>[],
-                'error' => "Unauthorized",
-                'errors' => [],
-                'trace' => []
-            ], ResponseAlias::HTTP_UNAUTHORIZED));
+                ], ResponseAlias::HTTP_UNAUTHORIZED)
+            );
         }
     }
 }

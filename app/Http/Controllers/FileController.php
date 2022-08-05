@@ -6,8 +6,6 @@ use App\Http\Requests\CreateFileRequest;
 use App\Http\Resources\FileResource;
 use App\Services\FileService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class FileController extends Controller
@@ -68,18 +66,16 @@ class FileController extends Controller
      */
     public function upload(CreateFileRequest $request)
     {
-
         $file = $request->file;
         $fileDetails['uuid'] = Str::uuid();
         $fileDetails['name'] = $file->getFilename();
-        $fileDetails['path'] = 'public/pet-shop/'.$file->hashName();
+        $fileDetails['path'] = 'public/pet-shop/' . $file->hashName();
         $fileDetails['size'] = $file->getSize();
         $fileDetails['type'] = $file->getMimeType();
-        $file->move('pet-shop/',  $file->hashName());
+        $file->move('pet-shop/', $file->hashName());
 
         $fileCreated = $this->fileService->createFile($fileDetails);
         return $this->returnResource(new FileResource($fileCreated));
-
     }
 
     /**
@@ -123,8 +119,15 @@ class FileController extends Controller
         if (!$file) {
             return $this->resourceNotFound("File not found");
         }
-        $headers = ['Content-Type: image/jpeg','content-length :'.$file->size, 'Content-disposition:'.'attachment; filename='.pathinfo($file->path)['basename']];
-        return response()->download('pet-shop/'.pathinfo($file->path)['basename'], pathinfo($file->path)['basename'], $headers);
-
+        $headers = [
+            'Content-Type: image/jpeg',
+            'content-length :' . $file->size,
+            'Content-disposition:' . 'attachment; filename=' . pathinfo($file->path)['basename']
+        ];
+        return response()->download(
+            'pet-shop/' . pathinfo($file->path)['basename'],
+            pathinfo($file->path)['basename'],
+            $headers
+        );
     }
 }

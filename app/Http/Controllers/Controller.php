@@ -63,7 +63,6 @@ use Symfony\Component\HttpFoundation\Response as ResponseAlias;
  *     description="File API endpoint"
  * ),
  */
-
 class Controller extends BaseController
 {
     use AuthorizesRequests;
@@ -110,7 +109,7 @@ class Controller extends BaseController
 
     protected function emptySuccessResponse()
     {
-       return  (new BaseResource([]))
+        return (new BaseResource([]))
             ->withSuccess(1)
             ->withError(null)
             ->withErrors([])
@@ -126,7 +125,8 @@ class Controller extends BaseController
             ->withExtra([]);
     }
 
-    protected function returnResource($resource){
+    protected function returnResource($resource)
+    {
         return ($resource)
             ->withSuccess(1)
             ->withError(null)

@@ -34,8 +34,8 @@ class PaymentFactory extends Factory
         $paymentDetail = $paymentTypes[$arrayKey];
 
         return [
-            'uuid'=> Str::uuid(),
-            'type'=> $arrayKey,
+            'uuid' => Str::uuid(),
+            'type' => $arrayKey,
             'details' => ($paymentDetail),
             'created_at' => now(),
             'updated_at' => now(),

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateUserRequest;
-use App\Http\Requests\LoginRequest;
 use App\Http\Requests\EditUserRequest;
+use App\Http\Requests\LoginRequest;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\UserResource;
 use App\Services\JwtTokenService;

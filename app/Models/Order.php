@@ -15,7 +15,7 @@ class Order extends Model
     protected $casts = [
         'products' => 'json',
         'address' => 'json',
-        'shipped_at' =>'datetime'
+        'shipped_at' => 'datetime'
     ];
 
     protected $fillable = [
@@ -47,7 +47,7 @@ class Order extends Model
 
     public function product()
     {
-        return $this->belongsTo(Product::class,'products->uuid','uuid');
+        return $this->belongsTo(Product::class, 'products->uuid', 'uuid');
     }
 
 }

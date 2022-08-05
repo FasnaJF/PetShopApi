@@ -21,7 +21,7 @@ class OrderResource extends BaseResource
                 'order_status' => new OrderStatusResource($this->order_status),
                 'user' => new UserResource($this->user),
                 'payment' => ($this->payment) ? new PaymentResource($this->payment) : null,
-                'products' => array_map("self::getOrderProducts",$this->products)
+                'products' => array_map("self::getOrderProducts", $this->products)
 
             ];
         }
@@ -38,7 +38,7 @@ class OrderResource extends BaseResource
                     'order_status' => new OrderStatusResource($data->order_status),
                     'user' => new UserResource($data->user),
                     'payment' => ($data->payment) ? new PaymentResource($data->payment) : null,
-                    'products' => array_map("self::getOrderProducts",$data->products)
+                    'products' => array_map("self::getOrderProducts", $data->products)
                 ];
             })
         ];
@@ -46,7 +46,7 @@ class OrderResource extends BaseResource
 
     protected function getOrderProducts($orderProduct)
     {
-        $product = Product::where('uuid',$orderProduct['product'])->select('title','price')->first();
+        $product = Product::where('uuid', $orderProduct['product'])->select('title', 'price')->first();
         return [
             'uuid' => $orderProduct['product'],
             'price' => $product->price,

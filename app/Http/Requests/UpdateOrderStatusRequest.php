@@ -2,8 +2,6 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
-
 class UpdateOrderStatusRequest extends BaseRequest
 {
     public function authorize()

@@ -2,18 +2,18 @@
 
 namespace App\Http\Requests;
 
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class EditUserRequest extends BaseRequest
 {
     private $user;
+
     public function authorize()
     {
         $this->user = Auth::user();
         if ($this->user) {
             return true;
-        }else {
+        } else {
             $this->resourceNotFound("User Not Found");
         }
     }

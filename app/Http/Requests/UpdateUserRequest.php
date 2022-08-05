@@ -11,7 +11,7 @@ class UpdateUserRequest extends BaseRequest
         $user = User::where('uuid', $this->uuid)->first();
         if ($user) {
             return true;
-        }else {
+        } else {
             $this->resourceNotFound("User Not Found");
         }
     }
