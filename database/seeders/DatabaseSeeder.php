@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
             OrderStatusSeeder::class
         ]);
         \App\Models\Product::factory(50)->create();
-        \App\Models\Order::factory(50)->create();
+        \App\Models\Order::factory(100)->create();
 
         /*create admin*/
         \App\Models\User::factory()->create([
