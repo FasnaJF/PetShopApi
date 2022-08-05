@@ -477,8 +477,8 @@ class AdminController extends Controller
      *
      * )
      */
-    public function listAllUsers()
+    public function listAllUsers(Request $request)
     {
-        return UserResource::collection($this->userService->getAllUsers());
+        return UserResource::collection($this->userService->getAllUsers($request));
     }
 }

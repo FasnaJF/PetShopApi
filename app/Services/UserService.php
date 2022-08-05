@@ -42,9 +42,9 @@ class UserService
         return false;
     }
 
-    public function getAllUsers()
+    public function getAllUsers($request)
     {
-        return $this->userRepo->getAll();
+        return $this->userRepo->getAllUsers($request);
     }
 
     public function getUserByUUID($uuid)
