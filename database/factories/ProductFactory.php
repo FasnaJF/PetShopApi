@@ -31,7 +31,7 @@ class ProductFactory extends Factory
             'uuid' => Str::uuid(),
             'price' => fake()->randomFloat(2,10,50),
             'description' => fake()->sentence(),
-            'metadata' => json_encode([
+            'metadata' => ([
                 'brand'=> $brand_uuid,
                 'image' =>''
             ]),

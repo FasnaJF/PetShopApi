@@ -27,7 +27,7 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
     public function getAllShippedOrders($request)
     {
         $limit = $request->input('limit')? $request->input('limit'):null;
-        $sortBy = $request->input('sortBy');
+        $sortBy = $request->input('sortBy')? $request->input('sortBy'): 'id' ;
         $desc = ($request->input('desc') == 'true') ? 'DESC' : 'ASC';
         $sortBy = [$sortBy, $desc];
         $orderUuid = $request->input('orderUuid');
@@ -64,7 +64,7 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
     public function getAllOrdersDashboard($request)
     {
         $limit = $request->input('limit')? $request->input('limit'):null;
-        $sortBy = $request->input('sortBy');
+        $sortBy = $request->input('sortBy')? $request->input('sortBy'): 'id' ;
         $desc = ($request->input('desc') == 'true') ? 'DESC' : 'ASC';
         $sortBy = [$sortBy, $desc];
         $dateRange = $request->input('dateRange');

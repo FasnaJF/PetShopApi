@@ -36,7 +36,7 @@ class PaymentFactory extends Factory
         return [
             'uuid'=> Str::uuid(),
             'type'=> $arrayKey,
-            'details' => json_encode($paymentDetail),
+            'details' => ($paymentDetail),
             'created_at' => now(),
             'updated_at' => now(),
         ];

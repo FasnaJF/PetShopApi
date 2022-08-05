@@ -18,23 +18,25 @@ How To Set up Pet Shop API Project
 
     and create the db `CREATE DATABASE pet_shop;`
    
-    Now run `exit`.
+    Now run `exit` two times.
 
 6. Now you'll be in root directory again, use the following to login to the app container
     
     `docker exec -ti petshopapi_app_1 sh` 
     
     While you're inside the container run the following commands
-    
-    `php artisan key:generate`
+
+    `chmod -R 777 /var/www/storage` <!-- run this command, if there's a permission error -->
 
     `composer install`
+
+    `php artisan key:generate`
 
     `php artisan migrate`
     
     `php artisan db:seed`
 
-7. To generate the api documentation run the following inside the app conatiner
+8. To generate the api documentation run the following inside the app conatiner
     
     `php artisan l5-swagger:generate`
 
