@@ -15,7 +15,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
 
     public function getByEmail($email)
     {
-        return  $this->model->where('email', $email)->first();
+        return $this->model->where('email', $email)->first();
     }
 
     public function getAll($sortBy = null)
@@ -23,8 +23,12 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         return $this->model->paginate(10);
     }
 
-    public function getAllUsers($request){
-
+    public function getAllUsers($request)
+    {
+        $limit = $request->input('limit') ? $request->input('limit') : null;
+        $sortBy = $request->input('sortBy');
+        $desc = ($request->input('desc') == 'true') ? 'DESC' : 'ASC';
+        $sortBy = [$sortBy, $desc];
         $first_name = $request->input('first_name');
         $email = $request->input('email');
         $phone = $request->input('phone');
@@ -51,7 +55,10 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
             ->when($created_at, function ($query, $created_at) {
                 return $query->where('created_at', $created_at);
             })
-            ->paginate();
+            ->when($sortBy, function ($query, $sortBy) {
+                return $query->orderBy($sortBy[0],$sortBy[1]);
+            })
+            ->paginate($limit);
 
         return $users;
     }

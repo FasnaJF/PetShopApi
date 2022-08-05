@@ -43,8 +43,8 @@ class CategoryService
         return $this->categoryRepo->updateById($id, $data);
     }
 
-    public function getAllCategories()
+    public function getAllCategories($request)
     {
-        return $this->categoryRepo->getAll();
+        return $this->categoryRepo->getAllCategories($request);
     }
 }

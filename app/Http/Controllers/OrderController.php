@@ -367,11 +367,7 @@ class OrderController extends Controller
      */
     public function index(GetOrdersRequest $request)
     {
-        $page = $request->input('page');
-        $limit = $request->input('limit');
-        $sortBy = $request->input('sortBy');
-        $desc = $request->input('desc');
-        return OrderResource::collection($this->orderService->getAllOrders());
+        return OrderResource::collection($this->orderService->getAllOrders($request));
     }
 
     /**

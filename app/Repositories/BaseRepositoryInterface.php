@@ -16,6 +16,7 @@ interface BaseRepositoryInterface
     public function getModel() : Model;
     public function withTrashed();
     public function getByUUID($uuid);
+    public function getAllWithQueryParams($request);
 
 
 }

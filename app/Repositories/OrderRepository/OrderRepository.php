@@ -19,17 +19,17 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
         return $this->model->where('user_id', $userId)->paginate();
     }
 
-    public function getAll($sortBy = null)
+    public function getAllOrders($request)
     {
-        return $this->model->paginate(10);
+        return $this->getAllWithQueryParams($request);
     }
 
     public function getAllShippedOrders($request)
     {
-        $page = $request->input('page');
-        $limit = $request->input('limit');
+        $limit = $request->input('limit')? $request->input('limit'):null;
         $sortBy = $request->input('sortBy');
-        $desc = $request->input('desc');
+        $desc = ($request->input('desc') == 'true') ? 'DESC' : 'ASC';
+        $sortBy = [$sortBy, $desc];
         $orderUuid = $request->input('orderUuid');
         $customerUuid = $request->input('customerUuid');
         $dateRange = $request->input('dateRange');
@@ -53,17 +53,20 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
                 return $query->where('user_id', $customerUuid);
             })
             ->whereNotNull('shipped_at')
-            ->paginate();
+            ->when($sortBy, function ($query, $sortBy) {
+                return $query->orderBy($sortBy[0],$sortBy[1]);
+            })
+            ->paginate($limit);
 
         return $orders;
     }
 
     public function getAllOrdersDashboard($request)
     {
-        $page = $request->input('page');
-        $limit = $request->input('limit');
+        $limit = $request->input('limit')? $request->input('limit'):null;
         $sortBy = $request->input('sortBy');
-        $desc = $request->input('desc');
+        $desc = ($request->input('desc') == 'true') ? 'DESC' : 'ASC';
+        $sortBy = [$sortBy, $desc];
         $dateRange = $request->input('dateRange');
         $fixRange = $request->input('fixRange');
         $dateRange = $this->getFixedRangeDate($fixRange);
@@ -78,7 +81,10 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
                         ]
                     );
             })
-            ->paginate();
+            ->when($sortBy, function ($query, $sortBy) {
+                return $query->orderBy($sortBy[0],$sortBy[1]);
+            })
+            ->paginate($limit);
 
         return $orders;
     }

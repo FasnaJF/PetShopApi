@@ -43,8 +43,8 @@ class BrandService
         return $this->brandRepo->getByUUID($uuid);
     }
 
-    public function getAllBrands()
+    public function getAllBrands($request)
     {
-        return $this->brandRepo->getAll();
+        return $this->brandRepo->getAllBrands($request);
     }
 }

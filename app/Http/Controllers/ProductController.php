@@ -342,10 +342,6 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $page = $request->input('page');
-        $limit = $request->input('limit');
-        $sortBy = $request->input('sortBy');
-        $desc = $request->input('desc');
-        return ProductResource::collection($this->productService->getAllProducts());
+        return ProductResource::collection($this->productService->getAllProducts($request));
     }
 }

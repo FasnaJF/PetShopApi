@@ -43,8 +43,8 @@ class OrderStatusService
         return $this->orderStatusRepo->getByUUID($uuid);
     }
 
-    public function getAllOrderStatuss()
+    public function getAllOrderStatuses($request)
     {
-        return $this->orderStatusRepo->getAll();
+        return $this->orderStatusRepo->getAllOrderStatuses($request);
     }
 }

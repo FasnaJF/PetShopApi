@@ -12,8 +12,8 @@ class OrderStatusRepository extends BaseRepository implements OrderStatusReposit
         $this->model = $orderStatus;
     }
 
-    public function getAll($sortBy = null)
+    public function getAllOrderStatuses($request)
     {
-        return $this->model->paginate(10);
+        return $this->getAllWithQueryParams($request);
     }
 }

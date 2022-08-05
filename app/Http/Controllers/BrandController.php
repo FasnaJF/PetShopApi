@@ -284,11 +284,7 @@ class BrandController extends Controller
      */
     public function index(Request $request)
     {
-        $page = $request->input('page');
-        $limit = $request->input('limit');
-        $sortBy = $request->input('sortBy');
-        $desc = $request->input('desc');
-        return BrandResource::collection($this->brandService->getAllBrands());
+        return BrandResource::collection($this->brandService->getAllBrands($request));
     }
 
 }

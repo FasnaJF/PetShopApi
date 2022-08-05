@@ -43,8 +43,8 @@ class ProductService
         return $this->productRepo->getByUUID($uuid);
     }
 
-    public function getAllProducts()
+    public function getAllProducts($request)
     {
-        return $this->productRepo->getAll();
+        return $this->productRepo->getAllProducts($request);
     }
 }

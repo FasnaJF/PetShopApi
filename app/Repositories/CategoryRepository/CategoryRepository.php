@@ -12,9 +12,9 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
         $this->model = $category;
     }
 
-    public function getAll($sortBy = null)
+    public function getAllCategories($request)
     {
-        return $this->model->paginate(10);
+        return $this->getAllWithQueryParams($request);
     }
 
 }

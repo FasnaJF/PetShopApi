@@ -43,8 +43,8 @@ class PaymentService
         return $this->paymentRepo->getByUUID($uuid);
     }
 
-    public function getAllPayments()
+    public function getAllPayments($request)
     {
-        return $this->paymentRepo->getAll();
+        return $this->paymentRepo->getAllPayments($request);
     }
 }

@@ -285,11 +285,7 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
-        $page = $request->input('page');
-        $limit = $request->input('limit');
-        $sortBy = $request->input('sortBy');
-        $desc = $request->input('desc');
-        return CategoryResource::collection($this->categoryService->getAllCategories());
+        return CategoryResource::collection($this->categoryService->getAllCategories($request));
     }
 
 }

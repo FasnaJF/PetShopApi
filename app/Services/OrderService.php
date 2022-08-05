@@ -48,9 +48,9 @@ class OrderService
         return $this->orderRepo->getByUUID($uuid);
     }
 
-    public function getAllOrders()
+    public function getAllOrders($request)
     {
-        return $this->orderRepo->getAll();
+        return $this->orderRepo->getAllOrders($request);
     }
 
     public function getAllShippedOrders($request)

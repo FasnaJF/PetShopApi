@@ -68,4 +68,18 @@ abstract class BaseRepository
         return $this;
     }
 
+    public function getAllWithQueryParams($request)
+    {
+        $limit = $request->input('limit')? $request->input('limit'):null;
+        $sortBy = $request->input('sortBy');
+        $desc = ($request->input('desc') == 'true') ? 'DESC' : 'ASC';
+        $sortBy = [$sortBy, $desc];
+
+        return $this->model
+            ->when($sortBy, function ($query, $sortBy) {
+                return $query->orderBy($sortBy[0],$sortBy[1]);
+            })
+            ->paginate($limit);
+    }
+
 }
