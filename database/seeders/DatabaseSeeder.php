@@ -39,6 +39,7 @@ class DatabaseSeeder extends Seeder
              'address' => fake()->address(),
              'phone_number' => fake()->phoneNumber(),
              'is_marketing' => 1,
+             'is_admin' => 1,
              'created_at' => now(),
              'updated_at' => now(),
          ]);
