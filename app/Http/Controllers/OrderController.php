@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateOrderRequest;
 use App\Http\Requests\GetOrdersRequest;
+use App\Http\Requests\UpdateOrderRequest;
 use App\Http\Resources\OrderResource;
 use App\Models\Product;
 use App\Services\OrderService;
 use App\Services\ProductService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class OrderController extends Controller
 {
@@ -20,194 +24,194 @@ class OrderController extends Controller
         $this->productService = $productService;
     }
 
-//    /**
-//     * Create a new order
-//     * @OA\Post (
-//     *     path="/api/v1/order/create",
-//     *     operationId="orders-create",
-//     *     tags={"Orders"},
-//     *     security={{"bearerAuth":{}}},
-//     *      @OA\RequestBody(
-//     *          required = true,
-//     *          @OA\MediaType(
-//     *              mediaType = "application/x-www-form-urlencoded",
-//     *              @OA\Schema(
-//     *                  type = "object",
-//     *                  required={
-//     *                            "order_status_uuid","payment_uuid","products","address"
-//     *                  },
-//     *                  @OA\Property(
-//     *                      property = "order_status_uuid",
-//     *                      type = "string",
-//     *                      description = "Order status UUID"
-//     *                  ),
-//     *                  @OA\Property(
-//     *                      property = "payment_uuid",
-//     *                      type = "string",
-//     *                      description = "Payment UUID"
-//     *                  ),
-//     *                  @OA\Property(
-//     *                      property = "products",
-//     *                      type = "array",
-//     *                      description = "Array of objects with product uuid and quantity",
-//     *                      @OA\Items(
-//     *                          type= "object",
-//     *                          @OA\Property(
-//     *                              property = "uuid",
-//     *                              type = "string",
-//     *                              description = "Product UUID"
-//     *                          ),
-//     *                          @OA\Property(
-//     *                              property = "quantity",
-//     *                              type = "string",
-//     *                              description = "Product Quantity"
-//     *                          ),
-//     *                      ),
-//     *                  ),
-//     *                  @OA\Property(
-//     *                      property = "address",
-//     *                      type = "object",
-//     *                      description = "Billing and Shipping address",
-//     *                      @OA\Property(
-//     *                          property = "billing",
-//     *                          type = "string",
-//     *                      ),
-//     *                      @OA\Property(
-//     *                          property = "shipping",
-//     *                          type = "string",
-//     *                      ),
-//     *                  ),
-//     *              )
-//     *          )
-//     *      ),
-//     *     @OA\Response(
-//     *         response=200,
-//     *         description="OK",
-//     *     ),
-//     *      @OA\Response(
-//     *         response=401,
-//     *         description="Unauthorized",
-//     *     ),
-//     *     @OA\Response(
-//     *         response=404,
-//     *         description="Page not found",
-//     *     ),
-//     *      @OA\Response(
-//     *         response=422,
-//     *         description="Unprocessable Entity",
-//     *     ),
-//     *      @OA\Response(
-//     *         response=500,
-//     *         description="Internal server error",
-//     *     ),
-//     * )
-//     */
-//    public function create(CreateOrderRequest $request)
-//    {
-//        $orderDetails = $request->validated();
-//        $orderDetails['uuid'] = Str::uuid();
-//        $orderDetails['user_id'] = Auth::user()->uuid;
-//        $orderDetails['order_status_id'] = $orderDetails['order_status_uuid'];
-//        $orderDetails['payment_id'] = $orderDetails['payment_uuid'];
-//        $orderDetails['address'] = json_decode($orderDetails['address']);
-//        $orderDetails['amount'] = 0;
-//        $orderDetails['delivery_fee'] = 0;
-//
-//        $order = $this->orderService->createOrder($orderDetails);
-//        return $this->customResponse(['uuid' => $order->uuid]);
-//    }
-//
-//    /**
-//     * Update an existing order
-//     * @OA\Put (
-//     *     path="/api/v1/order/{uuid}",
-//     *     operationId="orders-update",
-//     *     tags={"Orders"},
-//     *     security={{"bearerAuth":{}}},
-//     *     @OA\Parameter(
-//     *         in="path",
-//     *         name="uuid",
-//     *         required=true,
-//     *         @OA\Schema(type="string")
-//     *     ),
-//     *      @OA\RequestBody(
-//     *          required = true,
-//     *          @OA\MediaType(
-//     *              mediaType = "application/x-www-form-urlencoded",
-//     *              @OA\Schema(
-//     *                  type = "object",
-//     *                  required={
-//     *                            "order_status_uuid","payment_uuid","products","address"
-//     *                  },
-//     *                  @OA\Property(
-//     *                      property = "order_status_uuid",
-//     *                      type = "string",
-//     *                      description = "Order status UUID"
-//     *                  ),
-//     *                  @OA\Property(
-//     *                      property = "payment_uuid",
-//     *                      type = "string",
-//     *                      description = "Payment UUID"
-//     *                  ),
-//     *                  @OA\Property(
-//     *                      property = "products",
-//     *                      type = "array",
-//     *                      description = "Array of objects with product uuid and quantity",
-//     *                      @OA\Items(
-//     *                          type= "object",
-//     *                          @OA\Property(
-//     *                              property = "uuid",
-//     *                              type = "string",
-//     *                              description = "Product UUID"
-//     *                          ),
-//     *                          @OA\Property(
-//     *                              property = "quantity",
-//     *                              type = "string",
-//     *                              description = "Product Quantity"
-//     *                          ),
-//     *                      ),
-//     *                  ),
-//     *                  @OA\Property(
-//     *                      property = "address",
-//     *                      type = "object",
-//     *                      description = "Billing and Shipping address",
-//     *                      @OA\Property(
-//     *                          property = "billing",
-//     *                          type = "string",
-//     *                      ),
-//     *                      @OA\Property(
-//     *                          property = "shipping",
-//     *                          type = "string",
-//     *                      ),
-//     *                  ),
-//     *              )
-//     *          )
-//     *      ),
-//     *     @OA\Response(
-//     *         response=404,
-//     *         description="Page not found",
-//     *     ),
-//     *      @OA\Response(
-//     *         response=422,
-//     *         description="Unprocessable Entity",
-//     *     ),
-//     *      @OA\Response(
-//     *         response=500,
-//     *         description="Internal server error",
-//     *     ),
-//     * )
-//     */
-//    public function update(UpdateOrderRequest $request)
-//    {
-//        $order = $this->orderService->getOrderByUUID($request->uuid);
-//
-//        if ($order) {
-//            $updatedOrder = $this->orderService->updateOrder($order->id, $request->all());
-//            return $this->returnResource(new OrderResource($updatedOrder));
-//        } else {
-//            return $this->resourceNotFound("Order not found");
-//        }
-//    }
+    /**
+     * Create a new order
+     * @OA\Post (
+     *     path="/api/v1/order/create",
+     *     operationId="orders-create",
+     *     tags={"Orders"},
+     *     security={{"bearerAuth":{}}},
+     *      @OA\RequestBody(
+     *          required = true,
+     *          @OA\MediaType(
+     *              mediaType = "application/x-www-form-urlencoded",
+     *              @OA\Schema(
+     *                  type = "object",
+     *                  required={
+     *                            "order_status_uuid","payment_uuid","products","address"
+     *                  },
+     *                  @OA\Property(
+     *                      property = "order_status_uuid",
+     *                      type = "string",
+     *                      description = "Order status UUID"
+     *                  ),
+     *                  @OA\Property(
+     *                      property = "payment_uuid",
+     *                      type = "string",
+     *                      description = "Payment UUID"
+     *                  ),
+     *                  @OA\Property(
+     *                      property = "products",
+     *                      type = "array",
+     *                      description = "Array of objects with product uuid and quantity",
+     *                      @OA\Items(
+     *                          type= "object",
+     *                          @OA\Property(
+     *                              property = "uuid",
+     *                              type = "string",
+     *                              description = "Product UUID"
+     *                          ),
+     *                          @OA\Property(
+     *                              property = "quantity",
+     *                              type = "string",
+     *                              description = "Product Quantity"
+     *                          ),
+     *                      ),
+     *                  ),
+     *                  @OA\Property(
+     *                      property = "address",
+     *                      type = "object",
+     *                      description = "Billing and Shipping address",
+     *                      @OA\Property(
+     *                          property = "billing",
+     *                          type = "string",
+     *                      ),
+     *                      @OA\Property(
+     *                          property = "shipping",
+     *                          type = "string",
+     *                      ),
+     *                  ),
+     *              )
+     *          )
+     *      ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="OK",
+     *     ),
+     *      @OA\Response(
+     *         response=401,
+     *         description="Unauthorized",
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Page not found",
+     *     ),
+     *      @OA\Response(
+     *         response=422,
+     *         description="Unprocessable Entity",
+     *     ),
+     *      @OA\Response(
+     *         response=500,
+     *         description="Internal server error",
+     *     ),
+     * )
+     */
+    public function create(CreateOrderRequest $request)
+    {
+        $orderDetails = $request->validated();
+        $orderDetails['uuid'] = Str::uuid();
+        $orderDetails['user_id'] = Auth::user()->uuid;
+        $orderDetails['order_status_id'] = $orderDetails['order_status_uuid'];
+        $orderDetails['payment_id'] = $orderDetails['payment_uuid'];
+        $orderDetails = $this->structureOrderDetails($orderDetails);
+        $order = $this->orderService->createOrder($orderDetails);
+
+        return $this->customResponse(['uuid' => $order->uuid]);
+    }
+
+    /**
+     * Update an existing order
+     * @OA\Put (
+     *     path="/api/v1/order/{uuid}",
+     *     operationId="orders-update",
+     *     tags={"Orders"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         in="path",
+     *         name="uuid",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *      @OA\RequestBody(
+     *          required = true,
+     *          @OA\MediaType(
+     *              mediaType = "application/x-www-form-urlencoded",
+     *              @OA\Schema(
+     *                  type = "object",
+     *                  required={
+     *                            "order_status_uuid","payment_uuid","products","address"
+     *                  },
+     *                  @OA\Property(
+     *                      property = "order_status_uuid",
+     *                      type = "string",
+     *                      description = "Order status UUID"
+     *                  ),
+     *                  @OA\Property(
+     *                      property = "payment_uuid",
+     *                      type = "string",
+     *                      description = "Payment UUID"
+     *                  ),
+     *                  @OA\Property(
+     *                      property = "products",
+     *                      type = "array",
+     *                      description = "Array of objects with product uuid and quantity",
+     *                      @OA\Items(
+     *                          type= "object",
+     *                          @OA\Property(
+     *                              property = "uuid",
+     *                              type = "string",
+     *                              description = "Product UUID"
+     *                          ),
+     *                          @OA\Property(
+     *                              property = "quantity",
+     *                              type = "string",
+     *                              description = "Product Quantity"
+     *                          ),
+     *                      ),
+     *                  ),
+     *                  @OA\Property(
+     *                      property = "address",
+     *                      type = "object",
+     *                      description = "Billing and Shipping address",
+     *                      @OA\Property(
+     *                          property = "billing",
+     *                          type = "string",
+     *                      ),
+     *                      @OA\Property(
+     *                          property = "shipping",
+     *                          type = "string",
+     *                      ),
+     *                  ),
+     *              )
+     *          )
+     *      ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Page not found",
+     *     ),
+     *      @OA\Response(
+     *         response=422,
+     *         description="Unprocessable Entity",
+     *     ),
+     *      @OA\Response(
+     *         response=500,
+     *         description="Internal server error",
+     *     ),
+     * )
+     */
+    public function update(UpdateOrderRequest $request)
+    {
+        $orderDetails = $request->validated();
+        $order = $this->orderService->getOrderByUUID($request->uuid);
+
+        $orderDetails = $this->structureOrderDetails($orderDetails);
+        if ($order) {
+            $updatedOrder = $this->orderService->updateOrder($order->id, $orderDetails);
+            return $this->returnResource(new OrderResource($updatedOrder));
+        } else {
+            return $this->resourceNotFound("Order not found");
+        }
+    }
 
     /**
      * delete an existing order
@@ -607,5 +611,29 @@ class OrderController extends Controller
         $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('order_details', compact('order'));
 
         return $pdf->download($order->uuid . '.pdf');
+    }
+
+    /**
+     * @param mixed $orderDetails
+     * @return mixed
+     */
+    public function structureOrderDetails(mixed $orderDetails): mixed
+    {
+        $orderDetails['address'] = json_decode($orderDetails['address']);
+        $orderProducts = '[' . $orderDetails['products'] . ']';
+        $products = json_decode($orderProducts, true);
+        $orderDetails['products'] = $products;
+
+        $amount = 0;
+        foreach ($products as $product) {
+            $productDetails = $this->productService->getProductByUUID($product['uuid']);
+            if(!$productDetails){
+                return $this->resourceNotFound("Product not found");
+            }
+            $amount += (int)$product['quantity'] * $productDetails['price'];
+        }
+        $orderDetails['amount'] = $amount;
+        $orderDetails['delivery_fee'] = $amount < 500 ? 15 : 0;
+        return $orderDetails;
     }
 }

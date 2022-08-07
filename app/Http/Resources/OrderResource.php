@@ -46,9 +46,9 @@ class OrderResource extends BaseResource
 
     protected function getOrderProducts($orderProduct)
     {
-        $product = Product::where('uuid', $orderProduct['product'])->select('title', 'price')->first();
+        $product = Product::where('uuid', $orderProduct['uuid'])->select('title', 'price')->first();
         return [
-            'uuid' => $orderProduct['product'],
+            'uuid' => $orderProduct['uuid'],
             'price' => $product->price,
             'product' => $product->title,
             'quantity' => $orderProduct['quantity'],

@@ -39,7 +39,7 @@ class OrderFactory extends Factory
         foreach ($order_products as $order_product) {
             $quantity = rand(1, 5);
             $amount += $quantity * $order_product['price'];
-            $purchasedProduct['product'] = $order_product['uuid'];
+            $purchasedProduct['uuid'] = $order_product['uuid'];
             $purchasedProduct['quantity'] = $quantity;
             $purchasedProducts[] = $purchasedProduct;
         }
