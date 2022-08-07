@@ -52,3 +52,5 @@ email: admin@petshop.net
 password: password
 
 Normal users' email can be fetched form list all users end point and password for all users is `password`
+
+This branch has oreder create and update methods included
